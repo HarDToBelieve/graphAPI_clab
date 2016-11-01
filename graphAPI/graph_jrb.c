@@ -110,7 +110,7 @@ void bfs (Graph G, int start, int stop, void (*func)(int)) {
 	}
 }
 
-void dfs (Graph G, int start, int stop, void (*func)(int)) {
+void dfs_norecur (Graph G, int start, int stop, void (*func)(int)) {
 	int V = getNumofV(G);
 	JRB visited = make_jrb();
 	Dllist node;
@@ -139,4 +139,68 @@ void dfs (Graph G, int start, int stop, void (*func)(int)) {
 			}
 		}
 	}
+}
+
+int shortest_noWeight_path(Graph G, int start, int stop, int *path) {
+	int V = getNumofV(G);
+	Graph dist = make_jrb();
+	Graph visited = make_jrb();
+	Dllist node;
+	int i;
+
+	Dllist queue = new_dllist();
+	dll_append(queue, new_jval_i(start));
+
+	Graph trace = make_jrb();
+	jrb_insert_int(trace, start, new_jval_i(1));
+	jrb_insert_int(dist, start, new_jval_v(trace));
+	jrb_insert_int(visited, start, new_jval_i(1));
+
+	while ( !dll_empty(queue) ) {
+		node = dll_first(queue);
+		int u = jval_i(node->val);
+		dll_delete_node(node);
+
+		if ( u == stop ) {
+			Graph u_find_path = jrb_find_int(dist, u);
+			Graph result = jval_v(u_find_path->val);
+			int shortest_path = getNumofV(result); 
+			if ( path != NULL ) {
+				int cnt=0;
+				Graph tmp;
+				jrb_traverse(tmp, result)
+					path[cnt++] = jval_i(tmp->key);
+			}
+			return shortest_path;
+		}
+		int *output = (int*)malloc(V);
+		int num = getAdjacentVertices(G, u, output);
+		Graph u_find_path = jval_v(jrb_find_int(dist, u)->val);
+
+		for (i=0; i<num; ++i) {
+			int v = output[i];
+			Graph v_find = jrb_find_int(visited, v);
+			if ( v_find == NULL ) {
+				jrb_insert_int(visited, v, new_jval_i(1));
+				Graph current_path = make_jrb();
+				Graph node;
+				jrb_traverse(node, u_find_path)
+					jrb_insert_int(current_path, jval_i(node->key), new_jval_i(1));
+
+				jrb_insert_int(current_path, v, new_jval_i(1));
+				jrb_insert_int(dist, v, new_jval_v(current_path));
+				dll_append(queue, new_jval_i(v));
+			}
+		}	
+	}
+}
+
+void recur(Graph G, int u, Graph visited) {
+	
+}
+
+void dfs_recur(Graph G, int start, int stop, void (*func)(int)) {
+	Graph visited = make_jrb();
+	Graph node;
+
 }
