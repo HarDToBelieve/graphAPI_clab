@@ -8,11 +8,21 @@
 
 #define true 1
 #define false 0
+#define UNDIRECTED 0
+#define DIRECTED 1
 
 typedef JRB Graph;
 
 Graph createGraph ();
-void addEdge (Graph, int, int);
+
+int addVertex (Graph, char* mapping[], char *name);
+char *getVertex (Graph, char *mapping[], int);
+int indegree (Graph, int, int*);
+int outdegree (Graph, int, int*);
+int dfs_recur (Graph, int, int*);
+int DAG (Graph);
+
+void addEdge (Graph, int, int, int);
 int adjacent (Graph, int, int);
 int getAdjacentVertices (Graph, int, int*);
 void dropGraph (Graph);

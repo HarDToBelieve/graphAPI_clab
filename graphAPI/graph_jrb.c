@@ -5,7 +5,7 @@ Graph createGraph() {
 	return make_jrb();
 }
 
-void addEdge(Graph G, int v1, int v2) {
+void addEdge (Graph G, int v1, int v2, int mode) {
 	Graph v1_find = jrb_find_int (G, v1);
 	Graph v2_find = jrb_find_int (G, v2);
 	Graph tree_v1, tree_v2;
@@ -35,7 +35,8 @@ void addEdge(Graph G, int v1, int v2) {
 		tree_v2 = (Graph) jval_v(node_v2->val);
 	}
 	jrb_insert_int (tree_v1, v2, new_jval_i(1));
-	jrb_insert_int (tree_v2, v1, new_jval_i(1));
+	if ( mode == UNDIRECTED )
+		jrb_insert_int (tree_v2, v1, new_jval_i(1));
 }
 
 int adjacent(Graph G, int v1, int v2) {
@@ -193,4 +194,65 @@ int shortest_noWeight_path(Graph G, int start, int stop, int *path) {
 			}
 		}	
 	}
+}
+
+int addVertex (Graph G, char *mapping[], char *name) {
+	int i, V = getNumofV(G);
+	mapping [V] = (char *)malloc(strlen(name));
+	V++;
+	return V-1;
+}
+
+char *getVertex (Graph G, char *mapping[], int pos) {
+	return mapping[pos];
+}
+
+int indegree (Graph G, int u, int* output) {
+	int i, total = 0;
+	for (i=0; i<V; ++i)
+		if ( u != i && adjacent(G, i, u) )
+			output[total++] = u;
+	return total;
+}
+
+int outdegree (Graph G, int u, int* output) {
+	int i, total = 0;
+	for (i=0; i<V; ++i)
+		if ( u != i & adjacent(G, u, i) )
+			output[total++] = u;
+	return total;
+}
+
+int dfs_recur (Graph G, int u, int* visited) {
+	int i, V = getNumofV(G);
+	int *output = (int*)malloc(V);
+	int num = getAdjacentVertices(G, u, output);
+	visited[u] = 1;
+
+	for (i=0; i<num; ++i) {
+		int v = output[i];
+		if ( visited[v] == 0 ) {
+			if ( dfs_recur (G, v, visited) == false )
+				return false;
+			else continue;
+		}
+		else {
+			return false;
+		}
+	}
+	return true;
+}
+
+int DAG (Graph G) {
+	int *visited = (int *)malloc (V);
+	int i;
+	for (i=0; i<V; ++i)
+		visited[i] = 0;
+	for (i=0; i<V; ++i)
+		if ( visited[i] == 0 ) {
+			if ( dfs_recur (G, i, visited) == false )
+				return false;
+			else continue;
+		}
+	return true;
 }
