@@ -194,13 +194,3 @@ int shortest_noWeight_path(Graph G, int start, int stop, int *path) {
 		}	
 	}
 }
-
-void recur(Graph G, int u, Graph visited) {
-	
-}
-
-void dfs_recur(Graph G, int start, int stop, void (*func)(int)) {
-	Graph visited = make_jrb();
-	Graph node;
-
-}
