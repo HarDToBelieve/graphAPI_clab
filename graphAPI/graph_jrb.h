@@ -20,7 +20,5 @@ int getNumofV (Graph);
 void bfs (Graph, int, int, void (*func(int)));
 void dfs_norecur (Graph, int, int, void (*func(int)));
 int shortest_noWeight_path (Graph, int, int, int*);
-void dfs_recur (Graph, int, int, void (*func(int))); // TODO
-void recur(Graph, int, Graph, void (*func)(int));    // TODO
 
 #endif /* GRAPH_JRB_H */
