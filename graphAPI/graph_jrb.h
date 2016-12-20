@@ -19,8 +19,8 @@ int adjacent (Graph, int, int);
 int getAdjacentVertices (Graph, int, int*);
 void dropGraph (Graph);
 int getNumofV (Graph);
-void bfs (Graph, int, int, void (*func(int)));
-void dfs_norecur (Graph, int, int, void (*func(int)));
+void bfs (Graph, int, int, void (*func)(int));
+void dfs_norecur (Graph, int, int, void (*func)(int));
 int shortest_noWeight_path (Graph, int, int, int*);
 
 int addVertex (Graph, char* mapping[], char *name);

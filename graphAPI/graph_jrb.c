@@ -198,6 +198,8 @@ int shortest_noWeight_path(Graph G, int start, int stop, int *path) {
 }
 
 int addVertex (Graph G, char *mapping[], char *name) {
+	Graph v1_find = jrb_find_int (G, v1);
+	Graph v2_find = jrb_find_int (G, v2);
 	int i, V = getNumofV(G);
 	mapping [V] = (char *)malloc(strlen(name));
 	V++;

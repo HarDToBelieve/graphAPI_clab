@@ -3,12 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define UNDIRECTED 1
-
 int main () {
 	int u, v;
 	Graph G = createGraph();
 	
+	/* ------------------------------------ UNDIRECTED GRAPH ------------------------------------------ */
+
+	/*
 	addEdge(G, 1, 2, UNDIRECTED);
 	addEdge(G, 2, 0, UNDIRECTED);
 	addEdge(G, 0, 3, UNDIRECTED);
@@ -33,5 +34,16 @@ int main () {
 
 	puts ("Graph dropped");
 	dropGraph(G); 
+	*/
+
+	/* ------------------------------------- DIRECTED GRAPH --------------------------------------------- */
+	char *mapping[10];
+	addVertex (G, mapping, "terminal1");
+	addVertex (G, mapping, "terminal2");
+	addVertex (G, mapping, "terminal3");
+	addVertex (G, mapping, "terminal4");
+	addVertex (G, mapping, "terminal5");
+	addVertex (G, mapping, "terminal6");
+	addVertex (G, mapping, "terminal7");
 	return 0;
 }
