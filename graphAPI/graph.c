@@ -7,9 +7,10 @@ Graph createGraph(int sizemax) {
 	return result;
 }
 
-void addEdge(Graph *graph, int v1, int v2) {
+void addEdge(Graph *graph, int v1, int v2, int mode) {
 	graph->matrix[v1*graph->sizemax + v2] = 1;
-	graph->matrix[v2*graph->sizemax + v1] = 1;
+	if ( mode == UNDIRECTED )
+		graph->matrix[v2*graph->sizemax + v1] = 1;
 }
 
 int adjacent(Graph *graph, int v1, int v2) {

@@ -1,5 +1,6 @@
 #include "graph_jrb.h"
 #include <stdlib.h>
+#include <string.h>
 
 Graph createGraph() {
 	return make_jrb();
@@ -208,7 +209,7 @@ char *getVertex (Graph G, char *mapping[], int pos) {
 }
 
 int indegree (Graph G, int u, int* output) {
-	int i, total = 0;
+	int i, total = 0, V = getNumofV(G);
 	for (i=0; i<V; ++i)
 		if ( u != i && adjacent(G, i, u) )
 			output[total++] = u;
@@ -216,7 +217,7 @@ int indegree (Graph G, int u, int* output) {
 }
 
 int outdegree (Graph G, int u, int* output) {
-	int i, total = 0;
+	int i, total = 0, V = getNumofV (G);
 	for (i=0; i<V; ++i)
 		if ( u != i & adjacent(G, u, i) )
 			output[total++] = u;
@@ -244,8 +245,8 @@ int dfs_recur (Graph G, int u, int* visited) {
 }
 
 int DAG (Graph G) {
+	int i, V = getNumofV(G);
 	int *visited = (int *)malloc (V);
-	int i;
 	for (i=0; i<V; ++i)
 		visited[i] = 0;
 	for (i=0; i<V; ++i)

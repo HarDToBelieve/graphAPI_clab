@@ -14,14 +14,6 @@
 typedef JRB Graph;
 
 Graph createGraph ();
-
-int addVertex (Graph, char* mapping[], char *name);
-char *getVertex (Graph, char *mapping[], int);
-int indegree (Graph, int, int*);
-int outdegree (Graph, int, int*);
-int dfs_recur (Graph, int, int*);
-int DAG (Graph);
-
 void addEdge (Graph, int, int, int);
 int adjacent (Graph, int, int);
 int getAdjacentVertices (Graph, int, int*);
@@ -30,5 +22,12 @@ int getNumofV (Graph);
 void bfs (Graph, int, int, void (*func(int)));
 void dfs_norecur (Graph, int, int, void (*func(int)));
 int shortest_noWeight_path (Graph, int, int, int*);
+
+int addVertex (Graph, char* mapping[], char *name);
+char *getVertex (Graph, char *mapping[], int);
+int indegree (Graph, int, int*);
+int outdegree (Graph, int, int*);
+int dfs_recur (Graph, int, int*);
+int DAG (Graph);
 
 #endif /* GRAPH_JRB_H */
