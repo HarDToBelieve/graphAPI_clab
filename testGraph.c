@@ -56,13 +56,13 @@ int main () {
 	addEdge (G, mapping, "terminal5", "terminal4", DIRECTED);
 
 	printf ("Number of vertices: %d\n", getNumofV(G));
-	int *output = (int *)malloc(100);
+	int *output = (int *)malloc(getNumofV(G));
 	v = 3;
 	int num = getAdjacentVertices(G, v, output);
 	printf ("Number of adjacent of %d: %d\n", v, num);
 	for (i=0; i<num; i++)
 		printf ("Index: %d\n", output[i]);
-
+	free (output);
 	puts ("Check adjacence (1: true, 2: false):");
 	u = 5, v = 0; 
 	printf ("%d and %d: %d\n",u, v, adjacent(G, u, v));

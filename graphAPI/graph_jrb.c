@@ -233,6 +233,7 @@ int dfs_recur (Graph G, int u, int* visited) {
 			return false;
 		}
 	}
+	free (output);
 	return true;
 }
 
@@ -247,5 +248,6 @@ int DAG (Graph G) {
 				return false;
 			else continue;
 		}
+	free (visited);
 	return true;
 }
