@@ -5,15 +5,17 @@
 void printVertex(int v) { printf ("%d ", v); }
 
 int main () {
+    char *mapping[10];
     Graph g = createGraph();
-    addEdge(g, 0, 1);
-    addEdge(g, 1, 2);
-    addEdge(g, 1, 3);
-    addEdge(g, 2, 3);
-    addEdge(g, 2, 4);
-    addEdge(g, 4, 5);
+    addEdge (g, mapping, "0", "1", 0, UNDIRECTED);
+    addEdge (g, mapping, "1", "2", 0, UNDIRECTED);
+    addEdge (g, mapping, "1", "3", 0, UNDIRECTED);
+    addEdge (g, mapping, "2", "3", 0, UNDIRECTED);
+    addEdge (g, mapping, "2", "4", 0, UNDIRECTED);
+    addEdge (g, mapping, "4", "5", 0, UNDIRECTED);
     bfs (g, 1, -1, printVertex);
     puts("");
+    
     dfs_norecur (g, 1, -1, printVertex);
     puts("");
     int *path = (int *)malloc(getNumofV(g));
@@ -23,5 +25,6 @@ int main () {
     for (i=0; i<shortest_path; ++i)
         printf ("%d ", path[i]);
     puts ("");
+    
     return 0;
 }

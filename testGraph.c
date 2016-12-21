@@ -1,4 +1,3 @@
-//#include "graphAPI/graph.h"
 #include "graphAPI/graph_jrb.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,69 +5,67 @@
 int main () {
 	int u, v;
 	Graph G = createGraph();
+	char *mapping[100];
+	int i, j;
+	addVertex (G, mapping, "1");
+	addVertex (G, mapping, "2");
+	addVertex (G, mapping, "3");
+	addVertex (G, mapping, "4");
+	addVertex (G, mapping, "5");
+	addVertex (G, mapping, "6");
+	addVertex (G, mapping, "7");
+	addVertex (G, mapping, "8");
+
+	int *matrix[8] = {
+		(int []){0, 3, 5, 2, 0, 0, 0, 0},
+		(int []){3, 0, 1, 0, 7, 0, 0, 0},
+		(int []){5, 1, 0, 4, 0, 1, 0, 0},
+		(int []){2, 0, 4, 0, 0, 3, 6, 0},
+		(int []){0, 7, 0, 0, 0, 2, 0, 3},
+		(int []){0, 0, 1, 3, 2, 0, 4, 6},
+		(int []){0, 0, 0, 6, 0, 4, 0, 5},
+		(int []){0, 0, 0, 0, 3, 6, 5, 0}
+	};
 	
-	/* ------------------------------------ UNDIRECTED GRAPH ------------------------------------------ */
-
-	/*
-	addEdge(G, 1, 2, UNDIRECTED);
-	addEdge(G, 2, 0, UNDIRECTED);
-	addEdge(G, 0, 3, UNDIRECTED);
-	addEdge(G, 3, 5, UNDIRECTED);
-	addEdge(G, 5, 0, UNDIRECTED);
-	addEdge(G, 3, 6, UNDIRECTED);
-	addEdge(G, 4, 3, UNDIRECTED);
-
+	mat2adjl (G, mapping, matrix, 8, UNDIRECTED);
 	printf ("Number of vertices: %d\n", getNumofV(G));
-
-	int *output = (int *)malloc(100);
+	JRB *output = (JRB *)malloc(getNumofV(G) * sizeof(JRB));
 	v = 3;
 	int num = getAdjacentVertices(G, v, output);
-	printf ("Number of adjacent of %d: %d\n", v, num);
-	int i;
+	printf ("Number of adjacent of %s: %d\n", getVertex(G, mapping, v), num);
 	for (i=0; i<num; i++)
-		printf ("Index: %d\n", output[i]);
-
-	puts ("Check adjacence (1: true, 2: false):");
-	u = 0, v = 5; 
-	printf ("%d and %d: %d\n",u, v, adjacent(G, u, v));
-
-	puts ("Graph dropped");
-	dropGraph(G); 
-	*/
-
-	/* ------------------------------------- DIRECTED GRAPH --------------------------------------------- */
-	char *mapping[10];
-	int i;
-	addVertex (G, mapping, "terminal1");
-	addVertex (G, mapping, "terminal2");
-	addVertex (G, mapping, "terminal3");
-	addVertex (G, mapping, "terminal4");
-	addVertex (G, mapping, "terminal5");
-	addVertex (G, mapping, "terminal6");
-	addVertex (G, mapping, "terminal7");
-
-	addEdge (G, mapping, "terminal2", "terminal3", DIRECTED);
-	addEdge (G, mapping, "terminal3", "terminal1", DIRECTED);
-	addEdge (G, mapping, "terminal1", "terminal4", DIRECTED);
-	addEdge (G, mapping, "terminal4", "terminal6", DIRECTED);
-	addEdge (G, mapping, "terminal6", "terminal1", DIRECTED);
-	addEdge (G, mapping, "terminal4", "terminal7", DIRECTED);
-	addEdge (G, mapping, "terminal5", "terminal4", DIRECTED);
-
-	printf ("Number of vertices: %d\n", getNumofV(G));
-	int *output = (int *)malloc(getNumofV(G));
-	v = 3;
-	int num = getAdjacentVertices(G, v, output);
-	printf ("Number of adjacent of %d: %d\n", v, num);
-	for (i=0; i<num; i++)
-		printf ("Index: %d\n", output[i]);
+		printf ("Index: %s\n", getVertex(G, mapping, jval_i(output[i]->key)));
 	free (output);
-	puts ("Check adjacence (1: true, 2: false):");
-	u = 5, v = 0; 
-	printf ("%d and %d: %d\n",u, v, adjacent(G, u, v));
-	if ( DAG (G) )
+	puts ("Check adjacence (1: true, 0: false):");
+	u = 4, v = 0; 
+	printf ("%s and %s: %d\n", getVertex(G, mapping, u), getVertex(G, mapping, v), adjacent(G, u, v));
+	
+	
+	char *startName = "4";
+	char *endName = "8";
+
+	int numVertices;
+	int *trace = (int *)malloc (getNumofV (G) * sizeof(int));
+	int start = addVertex (G, mapping, startName);
+	int stop = addVertex (G, mapping, endName);
+	int shortest_weight_path = dijkstra (G, start, stop, trace, &numVertices);
+	printf ("Shortest path from %s to %s: %d\nPath: ", startName, endName, shortest_weight_path);
+	for (i=0; i<numVertices; ++i)
+		printf ("%s ", getVertex(G, mapping, trace[i]));
+	puts ("");
+	/*
+	if ( isDAG (G) ) {
 		puts ("This is a DAG graph");
+		output = (int *)malloc(getNumofV(G) * sizeof(int));
+		num = toposort (G, output);
+		printf ("Topological vertices: ");
+		for (i=0; i<num; ++i)
+			printf ("%s ", getVertex(G, mapping, output[i]));
+		puts ("");
+		free (output);
+	}
 	else
 		puts ("This is not a DAG graph");
+	*/
 	return 0;
 }
