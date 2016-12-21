@@ -38,6 +38,7 @@ int main () {
 
 	/* ------------------------------------- DIRECTED GRAPH --------------------------------------------- */
 	char *mapping[10];
+	int i;
 	addVertex (G, mapping, "terminal1");
 	addVertex (G, mapping, "terminal2");
 	addVertex (G, mapping, "terminal3");
@@ -45,5 +46,29 @@ int main () {
 	addVertex (G, mapping, "terminal5");
 	addVertex (G, mapping, "terminal6");
 	addVertex (G, mapping, "terminal7");
+
+	addEdge (G, mapping, "terminal2", "terminal3", DIRECTED);
+	addEdge (G, mapping, "terminal3", "terminal1", DIRECTED);
+	addEdge (G, mapping, "terminal1", "terminal4", DIRECTED);
+	addEdge (G, mapping, "terminal4", "terminal6", DIRECTED);
+	addEdge (G, mapping, "terminal6", "terminal1", DIRECTED);
+	addEdge (G, mapping, "terminal4", "terminal7", DIRECTED);
+	addEdge (G, mapping, "terminal5", "terminal4", DIRECTED);
+
+	printf ("Number of vertices: %d\n", getNumofV(G));
+	int *output = (int *)malloc(100);
+	v = 3;
+	int num = getAdjacentVertices(G, v, output);
+	printf ("Number of adjacent of %d: %d\n", v, num);
+	for (i=0; i<num; i++)
+		printf ("Index: %d\n", output[i]);
+
+	puts ("Check adjacence (1: true, 2: false):");
+	u = 5, v = 0; 
+	printf ("%d and %d: %d\n",u, v, adjacent(G, u, v));
+	if ( DAG (G) )
+		puts ("This is a DAG graph");
+	else
+		puts ("This is not a DAG graph");
 	return 0;
 }

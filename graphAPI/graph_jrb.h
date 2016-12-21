@@ -14,7 +14,7 @@
 typedef JRB Graph;
 
 Graph createGraph ();
-void addEdge (Graph, int, int, int);
+void addEdge (Graph, char *[], char *, char *, int);
 int adjacent (Graph, int, int);
 int getAdjacentVertices (Graph, int, int*);
 void dropGraph (Graph);

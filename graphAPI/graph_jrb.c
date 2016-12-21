@@ -6,35 +6,17 @@ Graph createGraph() {
 	return make_jrb();
 }
 
-void addEdge (Graph G, int v1, int v2, int mode) {
-	Graph v1_find = jrb_find_int (G, v1);
-	Graph v2_find = jrb_find_int (G, v2);
+void addEdge (Graph G, char *mapping[], char *name1, char *name2, int mode) {
+	int v1 = addVertex (G, mapping, name1);
+	int v2 = addVertex (G, mapping, name2);
+
 	Graph tree_v1, tree_v2;
 
-	if ( v1_find == NULL && v2_find == NULL ) {
-		tree_v1 = make_jrb();
-		tree_v2 = make_jrb();
-		jrb_insert_int (G, v1, new_jval_v(tree_v1));
-		jrb_insert_int (G, v2, new_jval_v(tree_v2));
-	}
-	else if ( v2_find == NULL ) {
-		Graph node = jrb_find_int (G, v1);
-		tree_v1 = (Graph) jval_v(node->val);
-		tree_v2 = make_jrb();
-		jrb_insert_int (G, v2, new_jval_v(tree_v2));
-	}
-	else if ( v1_find == NULL ) {
-		Graph node = jrb_find_int (G, v2);
-		tree_v2 = (Graph) jval_v(node->val);
-		tree_v1 = make_jrb();
-		jrb_insert_int (G, v1, new_jval_v(tree_v1));
-	}
-	else {
-		Graph node_v1 = jrb_find_int (G, v1);
-		tree_v1 = (Graph) jval_v(node_v1->val);
-		Graph node_v2 = jrb_find_int (G, v2);
-		tree_v2 = (Graph) jval_v(node_v2->val);
-	}
+	Graph node_v1 = jrb_find_int (G, v1);
+	tree_v1 = (Graph) jval_v(node_v1->val);
+	Graph node_v2 = jrb_find_int (G, v2);
+	tree_v2 = (Graph) jval_v(node_v2->val);
+	
 	jrb_insert_int (tree_v1, v2, new_jval_i(1));
 	if ( mode == UNDIRECTED )
 		jrb_insert_int (tree_v2, v1, new_jval_i(1));
@@ -198,12 +180,20 @@ int shortest_noWeight_path(Graph G, int start, int stop, int *path) {
 }
 
 int addVertex (Graph G, char *mapping[], char *name) {
-	Graph v1_find = jrb_find_int (G, v1);
-	Graph v2_find = jrb_find_int (G, v2);
-	int i, V = getNumofV(G);
-	mapping [V] = (char *)malloc(strlen(name));
-	V++;
-	return V-1;
+	int v = -1, i, V = getNumofV(G);
+	for (i=0; i<V; ++i)
+		if ( !strcmp(mapping[i], name) ) {
+			v = i;
+			break;
+		}
+	if ( v == -1 ) {
+		Graph tree_v = make_jrb();
+		jrb_insert_int (G, V, new_jval_v(tree_v));
+		mapping [V] = (char *)malloc(strlen(name));
+		strcpy (mapping[V], name);
+		v = V;
+	}
+	return v;
 }
 
 char *getVertex (Graph G, char *mapping[], int pos) {
