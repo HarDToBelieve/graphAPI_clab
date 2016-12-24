@@ -7,19 +7,21 @@
 #include "../libfdr/jrb.h"
 #include "graph_jrb.h"
 
-typedef struct {
-    Graph G;
-    JRB pqueue;
+struct HuffmanTree {
+    Graph graph;
     char *plain;
     char *cipher;
     int coding [256];
-} HuffmanTree;
+    char *mapping [1000];
+} ;
 
+typedef struct HuffmanTree HuffmanTree;
 char *int2bin (int );
-HuffmanTree makeHuffmanTree(char * );
-char *concat (char *, char * );
-void createHuffmanTable (HuffmanTree );
-void compress (HuffmanTree );
-void decompress (HuffmanTree );
+char *int2str (int );
+char *bin2str (char *);
+HuffmanTree* makeHuffmanTree(char * );
+void createHuffmanTable (HuffmanTree* );
+void compress (HuffmanTree* );
+void dfs (HuffmanTree* , int, int, int);
 
 #endif /* HUFFMAN_H */
