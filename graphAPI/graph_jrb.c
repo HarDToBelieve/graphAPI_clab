@@ -203,7 +203,7 @@ int indegree (Graph G, int u, int* output) {
 		if ( u != i && adjacent(G, i, u) ) {
 			int cnt = total++;
 			if ( output != NULL )
-				output[cnt] = u;
+				output[cnt] = i;
 		}
 	return total;
 }
@@ -214,7 +214,7 @@ int outdegree (Graph G, int u, int* output) {
 		if ( u != i & adjacent(G, u, i) ) {
 			int cnt = total++;
 			if ( output != NULL )
-				output[cnt] = u;
+				output[cnt] = i;
 		}
 	return total;
 }
