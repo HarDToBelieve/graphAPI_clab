@@ -211,7 +211,7 @@ int indegree (Graph G, int u, int* output) {
 int outdegree (Graph G, int u, int* output) {
 	int i, total = 0, V = getNumofV (G);
 	for (i=0; i<V; ++i)
-		if ( u != i & adjacent(G, u, i) ) {
+		if ( u != i && adjacent(G, u, i) ) {
 			int cnt = total++;
 			if ( output != NULL )
 				output[cnt] = i;
