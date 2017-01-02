@@ -42,13 +42,11 @@ void dfs (HuffmanTree *tree, int u, int value, int height) {
     int num = getAdjacentVertices (tree->graph, u, output);    
     if ( num == 0 ) {
         char *name = getVertex(tree->graph, tree->mapping, u);
-        //printf ("%s ------ %d ----- %s\n", name, value, int2bin(value));
         tree->coding [name[0]] = value;
     }
     else {
         for (i=0; i<num; ++i) {
             JRB v = output[i];
-            //printf ("Par: %s, Child: %s, Str Value: %s, Value: %d, height: %d, par val: %d, weight: %d\n", getVertex(tree->graph, tree->mapping, u), getVertex(tree->graph, tree->mapping, jval_i(v->key)), int2bin(value + jval_i(v->val) << (height + 1)), value + jval_i(v->val) << (height + 1), height + 1, value, jval_i(v->val));
             dfs (tree, jval_i(v->key), value + (jval_i(v->val) << (height + 1)), height + 1);
         }
     }
@@ -70,13 +68,7 @@ void createHuffmanTable (HuffmanTree *tree) {
             addVertex(tree->graph, tree->mapping, name);
             jrb_insert_int (pqueue, counter[i], new_jval_s(name));
         }
-    /*
-    JRB tmp;
-    jrb_traverse (tmp, pqueue) {
-        printf ("%s ", jval_s(tmp->val));
-    }
-    puts ("");
-    */
+
     while ( getNumofV(pqueue) > 1 ) {
         JRB left = jrb_first(pqueue);
         int left_freq = jval_i(left->key);
@@ -96,21 +88,10 @@ void createHuffmanTable (HuffmanTree *tree) {
         addEdge (tree->graph, tree->mapping, par_name, left_name, 0, DIRECTED);
         addEdge (tree->graph, tree->mapping, par_name, right_name, 1, DIRECTED);
         jrb_insert_int (pqueue, par_freq, new_jval_s(par_name));
-        /*
-        JRB tmp;
-        jrb_traverse (tmp, pqueue)
-            printf ("%s ", jval_s(tmp->val));
-        puts ("");
-        */
     }
     JRB root = jrb_first(pqueue);
     char *root_name = jval_s(root->val);
     dfs (tree, addVertex(tree->graph, tree->mapping, root_name), 0, -1);
-    /*
-    for (i=0; i<256; ++i)
-        if ( tree->coding[i] != 0 )
-            printf ("%c ---- %s\n", i, int2bin(tree->coding[i]));
-    */
 }
 
 void compress (HuffmanTree *tree) {
